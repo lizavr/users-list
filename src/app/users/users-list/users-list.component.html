@@ -1,0 +1,9 @@
+<div>
+  <div>List of users</div>
+  <button routerLink="/users/new">Add a new user</button>
+  <ng-container *ngFor="let user of users">
+    <a routerLink="/users/{{user.id}}" routerLinkActive="active">
+      {{ user.name }} {{ user.surname }}
+    </a>
+  </ng-container>
+</div>

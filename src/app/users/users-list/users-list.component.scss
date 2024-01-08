@@ -1,0 +1,25 @@
+@import "../../../styles/variables";
+div{
+  margin-top: 5rem;
+  font-size: 1.4rem;
+}
+a{
+  display: block;
+  color: $text-color;
+  text-decoration: none;
+  font-size: 1.2rem;
+  border-bottom: 3px solid transparent;
+  transition: 0.3s;
+  margin: 1rem;
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: $main-color;
+      cursor: pointer;
+    }
+  }
+
+  &.active {
+    border-color: $main-color;
+  }
+}
