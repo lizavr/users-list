@@ -1,0 +1,54 @@
+@import "./variables";
+
+@mixin profileIcon($type) {
+  content: "";
+  background-image: url("../assets/icons/#{$type}.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: inline-block;
+  height: 22px;
+  width: 22px;
+  margin-right: 0.3rem;
+}
+
+@mixin button($type: default) {
+  margin: $btn-padding-top;
+  border-radius: 5px;
+  padding: $btn-padding-top $btn-padding-right;
+  color: $main-color;
+  border: 1px solid #ffffff;
+  text-decoration: none;
+  background: none;
+  text-align: center;
+  display: block;
+  cursor: pointer;
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: #4b3939;
+    }
+  }
+
+  @if ($type == default) {
+    font-weight: 700;
+    background-color: $main-color;
+    color: white;
+    border-color: transparent;
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: darken($main-color, 10);
+        color: white;
+      }
+    }
+  }
+
+  &.button-large {
+    padding: 1rem;
+    font-size: 0.9em;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}

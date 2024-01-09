@@ -1,7 +1,9 @@
-.container{
+.container {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   width: 80%;
   margin: 0 auto;
+}
+
+.user-details {
+  padding: 5rem 0 5rem 20vw;
 }

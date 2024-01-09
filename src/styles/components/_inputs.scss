@@ -1,0 +1,134 @@
+@import "../variables";
+@import "../mixin";
+
+$color-outline: $gray-color;
+$color-focus: $main-color;
+$color-invalid: #f03800;
+
+input:not([type="submit"], [type="button"], [type="reset"]) {
+  display: block;
+  padding: 12px 14px;
+  border-radius: 5px;
+  font-family: inherit;
+  font-size: inherit;
+  outline: none;
+  box-sizing: border-box;
+  border: solid 1px $color-outline;
+  transition: all 0.3s ease;
+  background-color: white;
+  margin: $btn-padding-top;
+}
+
+input.ng-invalid.ng-touched {
+  border: solid 1px $color-invalid;
+}
+
+input[type="button"],
+input[type="submit"],
+button {
+  @include button();
+}
+
+input[type="reset"] {
+  @include button("transparent");
+}
+
+select {
+  appearance: none;
+  background-color: transparent;
+  padding: 12px 14px;
+  font-family: inherit;
+  font-size: inherit;
+  border: solid 1px $color-outline;
+  // background: url(.../../../../assets/icons/arrow-down.svg) no-repeat right 0.8em center / 1.4em;
+  outline: none;
+  border-radius: 5px;
+  background-color: white;
+
+  & * {
+    color: $text-color;
+  }
+
+  &:focus {
+    border: solid 1px $color-focus;
+  }
+
+  &:invalid {
+    border: solid 1px $color-invalid;
+  }
+
+  &:has(option:checked:not([value])),
+  &:has(option:checked:not([value=""])) {
+    color: black;
+  }
+}
+
+select,
+textarea,
+input:not([type="submit"], [type="button"], [type="reset"]) {
+  @media (hover: hover) {
+    &:hover {
+      border: solid 1px $border-hover-color;
+      background-color: $hover-input-color;
+      transition: all 0.3s ease;
+    }
+  }
+
+  &:active {
+    background-color: $background-active;
+  }
+
+  &:focus {
+    border: solid 1px $color-focus;
+  }
+}
+
+.checkbox-element,
+.label-element-checkbox {
+  cursor: pointer;
+}
+
+.checkbox-element {
+  margin-right: 8px;
+}
+
+//radio-buttons
+
+input ~ label {
+  cursor: pointer;
+}
+
+.custom-radio {
+  position: relative;
+}
+
+.custom-radio input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.custom-radio input[type="radio"] + label:before {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid $main-color;
+  margin-right: 10px;
+}
+
+.custom-radio input[type="radio"]:checked + label:after {
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: $main-color;
+  position: absolute;
+  left: 0.7%;
+  top: 9%;
+}
