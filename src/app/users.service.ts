@@ -5,8 +5,16 @@ export interface User {
   id: number;
   name: string;
   surname: string;
-  country: string;
+  nationality: string;
   phone: string;
+  addresses: Address[];
+}
+
+export interface Address {
+  country: string;
+  city: string;
+  street: string;
+  zip: string;
 }
 
 @Injectable({
@@ -18,22 +26,51 @@ export class UsersService {
       id: 1,
       name: 'John',
       surname: 'Doe',
-      country: 'USA',
+      nationality: 'USA',
       phone: '+1234567890',
+      addresses: [
+        {
+          country: 'USA',
+          city: 'Boston',
+          street: '25th avenue, 35',
+          zip: '12345',
+        },
+        {
+          country: 'Canada',
+          city: 'Ottawa',
+          street: '26th avenue, 12',
+          zip: '123456',
+        },
+      ],
     },
     {
       id: 2,
       name: 'Jane',
       surname: 'Dove',
-      country: 'Canada',
+      nationality: 'Canada',
       phone: '+2345678901',
+      addresses: [
+        {
+          country: 'Georgia',
+          city: 'Tbilisi',
+          street: 'Pushkin, 35',
+          zip: '12345',
+        },
+        {
+          country: 'Armenia',
+          city: 'Yerevan',
+          street: 'Galustyan, 12',
+          zip: '123456',
+        },
+      ],
     },
     {
       id: 3,
       name: 'Jim',
       surname: 'Beam',
-      country: 'UK',
+      nationality: 'UK',
       phone: '+3456789012',
+      addresses: [],
     },
   ];
 

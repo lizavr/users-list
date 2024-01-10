@@ -22,7 +22,7 @@
   </div>
 
   <div class="country">
-    <input type="text" placeholder="Country" formControlName="country" [matAutocomplete]="auto">
+    <input type="text" placeholder="Nationality" formControlName="nationality" [matAutocomplete]="auto">
     <mat-autocomplete #auto="matAutocomplete">
       <mat-option *ngFor="let option of countries" [value]="option">
         {{option}}
@@ -38,14 +38,23 @@
 
   <div formArrayName="addresses">
     <div *ngFor="let address of addresses.controls; let i = index" [formGroupName]="i">
+      <div class="country">
+        <input type="text" placeholder="Country" formControlName="country" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of countries" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </div>
       <input type="text" formControlName="street" placeholder="Street">
       <input type="text" formControlName="city" placeholder="City">
       <input type="text" formControlName="zip" placeholder="Zip">
-      <button type="button" (click)="removeAddress(i)">Remove</button>
+      <button type="button" (click)="removeAddress(i)">Remove address</button>
     </div>
   </div>
 
   <button type="button" (click)="addAddress()" class="button">Add Address</button>
 
+  <button type="button" class="button" (click)="deleteUser()">Delete</button>
   <button [disabled]="!editForm.valid" class="button">Save</button>
 </form>

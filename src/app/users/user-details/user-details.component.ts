@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { User, UsersService } from '../../users.service';
+import { Address, User, UsersService } from '../../users.service';
 import { Subscription } from 'rxjs';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {
@@ -11,6 +11,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-user-details',
@@ -25,16 +27,18 @@ export class UserDetailsComponent {
   editForm: FormGroup;
   countries: string[] = ['Belarus', 'Bulgaria', 'Georgia', 'Russia'];
 
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private userService: UsersService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private dialog: MatDialog
   ) {
     this.editForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
       surname: ['', [Validators.required, Validators.minLength(3)]],
-      country: [''],
+      nationality: [''],
       phone: [''],
       addresses: this.formBuilder.array([])
     });
@@ -60,7 +64,7 @@ export class UserDetailsComponent {
   }
 
   createDefaultUser(): User {
-    return { id: 0, name: '', surname: '', country: '', phone: '' };
+    return { id: 0, name: '', surname: '', nationality: '', phone: '', addresses: [] };
   }
 
   initializeUser(user: User) {
@@ -72,9 +76,18 @@ export class UserDetailsComponent {
     this.editForm = this.formBuilder.group({
       username: [user?.name, [Validators.required, Validators.minLength(3)]],
       surname: [user?.surname, [Validators.required, Validators.minLength(3)]],
-      country: [user?.country],
+      nationality: [user?.nationality],
       phone: [user?.phone],
-      addresses: this.formBuilder.array([])
+      addresses: this.formBuilder.array(user.addresses.map(address => this.createAddressFormGroup(address)))
+    });
+  }
+
+  private createAddressFormGroup(address: Address): FormGroup {
+    return this.formBuilder.group({
+      country: [address.country, Validators.required],
+      city: [address.city, Validators.required],
+      street: [address.street, Validators.required],
+      zip: [address.zip, Validators.required]
     });
   }
 
@@ -86,8 +99,9 @@ export class UserDetailsComponent {
         id: this.user?.id ?? 0,
         name: formData.username,
         surname: formData.surname,
-        country: formData.country,
+        nationality: formData.nationality,
         phone: formData.phone,
+        addresses: formData.addresses
       };
 
       if (user.id) {
@@ -121,12 +135,34 @@ export class UserDetailsComponent {
     });
   }
 
+  deleteUser() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40%',
+      data: { title: 'Delete User', message: 'Are you sure you want to delete this user?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.userService.deleteUser(this.user?.id ?? 0).subscribe({
+          next: (response) => {
+            console.log('User deleted successfully: ', response);
+            this.router.navigate(['/users']);
+          },
+          error: (error) => {
+            console.error('Error deleting user:', error);
+          },
+        });
+      }
+    });
+  }
+
   get addresses() {
     return this.editForm.get('addresses') as FormArray;
   }
 
   private createAddress(): FormGroup {
     return this.formBuilder.group({
+      country: ['', Validators.required],
       street: ['', Validators.required],
       city: ['', Validators.required],
       zip: ['', Validators.required]
