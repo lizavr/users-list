@@ -13,11 +13,12 @@ import {
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
+import { CustomPhoneInputComponent } from '../../custom-phone-input/custom-phone-input.component';
 
 @Component({
   selector: 'app-user-details',
   standalone: true,
-  imports: [CommonModule, MatAutocompleteModule, ReactiveFormsModule],
+  imports: [CommonModule, MatAutocompleteModule, ReactiveFormsModule, CustomPhoneInputComponent],
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.scss',
 })

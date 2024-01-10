@@ -34,7 +34,7 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/intl-tel-input/build/js/intlTelInput.js"
+              "node_modules/intl-tel-input/build/js/utils.js"
             ]
           },
           "configurations": {
@@ -100,5 +100,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
