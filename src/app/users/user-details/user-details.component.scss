@@ -1,0 +1,12 @@
+@import "../../../styles/variables";
+
+form {
+  * {
+    width: 100%;
+    margin: 10px 0;
+  }
+}
+
+app-custom-phone-input{
+  color: $menu-background-color;
+}
