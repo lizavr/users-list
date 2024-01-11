@@ -8,6 +8,7 @@ export interface User {
   email: string;
   nationality: string;
   phone: string;
+  dateOfBirth: string;
   addresses: Address[];
 }
 
@@ -28,6 +29,7 @@ export class UsersService {
       name: 'John',
       surname: 'Doe',
       email: 'test1@gmail.com',
+      dateOfBirth: '26.04.1995',
       nationality: 'USA',
       phone: '+1234567890',
       addresses: [
@@ -51,7 +53,9 @@ export class UsersService {
       surname: 'Dove',
       email: 'test2@gmail.com',
       nationality: 'Canada',
+      dateOfBirth: '26.04.1995',
       phone: '+2345678901',
+
       addresses: [
         {
           country: 'Georgia',
@@ -74,6 +78,7 @@ export class UsersService {
       email: 'test3@gmail.com',
       nationality: 'UK',
       phone: '+3456789012',
+      dateOfBirth: '26.04.1995',
       addresses: [],
     },
   ];

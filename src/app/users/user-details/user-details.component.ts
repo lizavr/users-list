@@ -44,7 +44,8 @@ export class UserDetailsComponent {
     this.editForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
       surname: ['', [Validators.required, Validators.minLength(3)]],
-      email:['',[Validators.required, new EmailValidator()]],
+      email: ['', [Validators.required, Validators.email,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      dateOfBirth: [''],
       nationality: [''],
       phone: [''],
       addresses: this.formBuilder.array([]),
@@ -78,6 +79,7 @@ export class UserDetailsComponent {
       email: '',
       nationality: '',
       phone: '',
+      dateOfBirth: '',
       addresses: [],
     };
   }
@@ -88,16 +90,33 @@ export class UserDetailsComponent {
   }
 
   initializeForm(user: User) {
-    this.editForm = this.formBuilder.group({
-      username: [user.name, [Validators.required, Validators.minLength(3)]],
-      surname: [user.surname, [Validators.required, Validators.minLength(3)]],
-      email: [user.email, [Validators.required, new EmailValidator()]],
-      nationality: [user.nationality],
-      phone: [user.phone],
-      addresses: this.formBuilder.array(
-        user.addresses.map((address) => this.createAddressFormGroup(address))
-      ),
-    });
+    if (!this.editForm) {
+      this.editForm = this.formBuilder.group({
+        username: [user.name, [Validators.required, Validators.minLength(3)]],
+        surname: [user.surname, [Validators.required, Validators.minLength(3)]],
+        email: [user.email, [Validators.required, Validators.email,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+        dateOfBirth: [user.dateOfBirth],
+        nationality: [user.nationality],
+        phone: [user.phone],
+        addresses: this.formBuilder.array(
+          user.addresses.map((address) => this.createAddressFormGroup(address))
+        ),
+      });
+    } else {
+      this.editForm.patchValue({
+        username: user.name,
+        surname: user.surname,
+        email: user.email,
+        dateOfBirth: user.dateOfBirth,
+        nationality: user.nationality,
+        phone: user.phone,
+      });
+      const addressFormArray = this.editForm.get('addresses') as FormArray;
+      addressFormArray.clear();
+      user.addresses.forEach((address) => {
+        addressFormArray.push(this.createAddressFormGroup(address));
+      });
+    }
   }
 
   private createAddressFormGroup(address: Address): FormGroup {
@@ -120,6 +139,7 @@ export class UserDetailsComponent {
         email: formData.email,
         nationality: formData.nationality,
         phone: formData.phone,
+        dateOfBirth: formData.dateOfBirth,
         addresses: formData.addresses,
       };
 

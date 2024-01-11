@@ -3,7 +3,7 @@
 
   <div class="user-name field-wrapper">
     <input type="text" placeholder="Username" formControlName="username" />
-    <div  class="error" *ngIf="editForm.get('username')?.errors?.['required'] && editForm.get('username')?.touched">
+    <div class="error" *ngIf="editForm.get('username')?.errors?.['required'] && editForm.get('username')?.touched">
       Username is required.
     </div>
     <div class="error" *ngIf="editForm.get('username')?.errors?.['minlength'] && editForm.get('username')?.touched">
@@ -13,7 +13,7 @@
 
   <div class="user-surname field-wrapper">
     <input type="text" placeholder="Surname" formControlName="surname" />
-    <div class="error"  *ngIf="editForm.get('surname')?.errors?.['required'] && editForm.get('surname')?.touched">
+    <div class="error" *ngIf="editForm.get('surname')?.errors?.['required'] && editForm.get('surname')?.touched">
       Surname is required.
     </div>
     <div class="error" *ngIf="editForm.get('surname')?.errors?.['minlength'] && editForm.get('surname')?.touched">
@@ -29,6 +29,14 @@
     </div>
   </div>
 
+  <div class="date">
+    <input type="text" placeholder="Date of birth" formControlName="dateOfBirth" />
+    <div class="error"
+      *ngIf="editForm.get('dateOfBirth')?.errors?.['required'] && editForm.get('dateOfBirth')?.touched">
+      Date of birth is required.
+    </div>
+  </div>
+
   <div class="country">
     <input type="text" placeholder="Nationality" formControlName="nationality" [matAutocomplete]="auto">
     <mat-autocomplete #auto="matAutocomplete">
@@ -41,6 +49,7 @@
   <div class="phone ">
     <app-custom-phone-input formControlName="phone"></app-custom-phone-input>
   </div>
+
   <br>
   <h2>Addresses</h2>
 
