@@ -5,6 +5,7 @@ export interface User {
   id: number;
   name: string;
   surname: string;
+  email: string;
   nationality: string;
   phone: string;
   addresses: Address[];
@@ -26,6 +27,7 @@ export class UsersService {
       id: 1,
       name: 'John',
       surname: 'Doe',
+      email: 'test1@gmail.com',
       nationality: 'USA',
       phone: '+1234567890',
       addresses: [
@@ -47,6 +49,7 @@ export class UsersService {
       id: 2,
       name: 'Jane',
       surname: 'Dove',
+      email: 'test2@gmail.com',
       nationality: 'Canada',
       phone: '+2345678901',
       addresses: [
@@ -68,6 +71,7 @@ export class UsersService {
       id: 3,
       name: 'Jim',
       surname: 'Beam',
+      email: 'test3@gmail.com',
       nationality: 'UK',
       phone: '+3456789012',
       addresses: [],

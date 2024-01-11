@@ -4,6 +4,7 @@ import { Address, User, UsersService } from '../../users.service';
 import { Subscription } from 'rxjs';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {
+  EmailValidator,
   FormArray,
   FormBuilder,
   FormGroup,
@@ -18,7 +19,12 @@ import { CustomPhoneInputComponent } from '../../custom-phone-input/custom-phone
 @Component({
   selector: 'app-user-details',
   standalone: true,
-  imports: [CommonModule, MatAutocompleteModule, ReactiveFormsModule, CustomPhoneInputComponent],
+  imports: [
+    CommonModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    CustomPhoneInputComponent,
+  ],
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.scss',
 })
@@ -27,7 +33,6 @@ export class UserDetailsComponent {
   subscription: Subscription | undefined;
   editForm: FormGroup;
   countries: string[] = ['Belarus', 'Bulgaria', 'Georgia', 'Russia'];
-
 
   constructor(
     private route: ActivatedRoute,
@@ -39,9 +44,10 @@ export class UserDetailsComponent {
     this.editForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
       surname: ['', [Validators.required, Validators.minLength(3)]],
+      email:['',[Validators.required, new EmailValidator()]],
       nationality: [''],
       phone: [''],
-      addresses: this.formBuilder.array([])
+      addresses: this.formBuilder.array([]),
     });
   }
 
@@ -65,7 +71,15 @@ export class UserDetailsComponent {
   }
 
   createDefaultUser(): User {
-    return { id: 0, name: '', surname: '', nationality: '', phone: '', addresses: [] };
+    return {
+      id: 0,
+      name: '',
+      surname: '',
+      email: '',
+      nationality: '',
+      phone: '',
+      addresses: [],
+    };
   }
 
   initializeUser(user: User) {
@@ -75,11 +89,14 @@ export class UserDetailsComponent {
 
   initializeForm(user: User) {
     this.editForm = this.formBuilder.group({
-      username: [user?.name, [Validators.required, Validators.minLength(3)]],
-      surname: [user?.surname, [Validators.required, Validators.minLength(3)]],
-      nationality: [user?.nationality],
-      phone: [user?.phone],
-      addresses: this.formBuilder.array(user.addresses.map(address => this.createAddressFormGroup(address)))
+      username: [user.name, [Validators.required, Validators.minLength(3)]],
+      surname: [user.surname, [Validators.required, Validators.minLength(3)]],
+      email: [user.email, [Validators.required, new EmailValidator()]],
+      nationality: [user.nationality],
+      phone: [user.phone],
+      addresses: this.formBuilder.array(
+        user.addresses.map((address) => this.createAddressFormGroup(address))
+      ),
     });
   }
 
@@ -88,7 +105,7 @@ export class UserDetailsComponent {
       country: [address.country, Validators.required],
       city: [address.city, Validators.required],
       street: [address.street, Validators.required],
-      zip: [address.zip, Validators.required]
+      zip: [address.zip, Validators.required],
     });
   }
 
@@ -100,9 +117,10 @@ export class UserDetailsComponent {
         id: this.user?.id ?? 0,
         name: formData.username,
         surname: formData.surname,
+        email: formData.email,
         nationality: formData.nationality,
         phone: formData.phone,
-        addresses: formData.addresses
+        addresses: formData.addresses,
       };
 
       if (user.id) {
@@ -139,10 +157,13 @@ export class UserDetailsComponent {
   deleteUser() {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '40%',
-      data: { title: 'Delete User', message: 'Are you sure you want to delete this user?' }
+      data: {
+        title: 'Delete User',
+        message: 'Are you sure you want to delete this user?',
+      },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.userService.deleteUser(this.user?.id ?? 0).subscribe({
           next: (response) => {
@@ -166,7 +187,7 @@ export class UserDetailsComponent {
       country: ['', Validators.required],
       street: ['', Validators.required],
       city: ['', Validators.required],
-      zip: ['', Validators.required]
+      zip: ['', Validators.required],
     });
   }
 

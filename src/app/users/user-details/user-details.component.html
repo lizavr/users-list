@@ -1,23 +1,31 @@
 <!-- <p>{{user?.name}} {{user?.surname}} {{user?.country}} {{user?.phone}}</p> -->
 <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
 
-  <div class="user-name">
+  <div class="user-name field-wrapper">
     <input type="text" placeholder="Username" formControlName="username" />
-    <div *ngIf="editForm.get('username')?.errors?.['required'] && editForm.get('username')?.touched">
+    <div  class="error" *ngIf="editForm.get('username')?.errors?.['required'] && editForm.get('username')?.touched">
       Username is required.
     </div>
-    <div *ngIf="editForm.get('username')?.errors?.['minlength'] && editForm.get('username')?.touched">
+    <div class="error" *ngIf="editForm.get('username')?.errors?.['minlength'] && editForm.get('username')?.touched">
       Username should be at least 3 characters.
     </div>
   </div>
 
-  <div class="user-surname">
+  <div class="user-surname field-wrapper">
     <input type="text" placeholder="Surname" formControlName="surname" />
-    <div *ngIf="editForm.get('surname')?.errors?.['required'] && editForm.get('surname')?.touched">
+    <div class="error"  *ngIf="editForm.get('surname')?.errors?.['required'] && editForm.get('surname')?.touched">
       Surname is required.
     </div>
-    <div *ngIf="editForm.get('surname')?.errors?.['minlength'] && editForm.get('surname')?.touched">
+    <div class="error" *ngIf="editForm.get('surname')?.errors?.['minlength'] && editForm.get('surname')?.touched">
       Surname should be at least 3 characters.
+    </div>
+  </div>
+
+  <div class="user-email field-wrapper">
+    <input type="email" placeholder="Enter your email address" formControlName="email" />
+    <div class="password-block">
+      <div class="error" *ngIf="!editForm.get('email')?.valid && editForm.get('email')?.touched">
+        Please, enter correct email (ex&#64;ex.com)</div>
     </div>
   </div>
 
@@ -30,14 +38,14 @@
     </mat-autocomplete>
   </div>
 
-  <div class="phone">
+  <div class="phone ">
     <app-custom-phone-input formControlName="phone"></app-custom-phone-input>
   </div>
-
+  <br>
   <h2>Addresses</h2>
 
   <div formArrayName="addresses">
-    <div *ngFor="let address of addresses.controls; let i = index" [formGroupName]="i">
+    <div class="address" *ngFor="let address of addresses.controls; let i = index" [formGroupName]="i">
       <div class="country">
         <input type="text" placeholder="Country" formControlName="country" [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete">
@@ -54,7 +62,7 @@
   </div>
 
   <button type="button" (click)="addAddress()" class="button">Add Address</button>
-  <br>
+  <hr>
   <button type="button" class="button" (click)="deleteUser()">Delete</button>
   <button [disabled]="!editForm.valid" class="button">Save</button>
 </form>

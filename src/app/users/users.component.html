@@ -1,8 +1,12 @@
 <div class="container">
-  <app-users-list></app-users-list>
-
-  <div class="user-details">
-    <router-outlet></router-outlet>
-  </div>
-
+  <as-split direction="horizontal" gutterSize="5">
+    <as-split-area [size]="30" [minSize]="20" [maxSize]="70">
+      <app-users-list></app-users-list>
+    </as-split-area>
+    <as-split-area [size]="70" [minSize]="20" [maxSize]="70">
+      <div class="user-details">
+        <router-outlet></router-outlet>
+      </div>
+    </as-split-area>
+  </as-split>
 </div>
